@@ -1,6 +1,6 @@
 import couchdb
-from . import app
-from .db import engine, engine_nl
+from minard import app
+from minard.db import engine, engine_nl
 from time import strftime
 from datetime import datetime
 import calendar

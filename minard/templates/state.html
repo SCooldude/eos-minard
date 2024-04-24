@@ -111,7 +111,7 @@
             {% call collapsible_header('CAEN','CAEN') %}
                 {% call collapsible_header('Dump Data','CAENDump') %}
                     <ul>
-                    {% for key,val in caen_state.iteritems() %}
+                    {% for key,val in caen_state.items() %}
                         <li> {{key}} = {{ val }} </li>
                     {% endfor %}
                     </ul>

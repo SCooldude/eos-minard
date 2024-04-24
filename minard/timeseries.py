@@ -2,10 +2,10 @@ from __future__ import print_function
 import sys
 from redis import Redis
 import bisect
-from redistools import maxcard, avgcard, maxcrate, avgcrate
-from .db import engine
+from minard.redistools import maxcard, avgcard, maxcrate, avgcrate
+from minard.db import engine
 
-redis = Redis()
+redis = Redis(decode_responses=True)
 
 # these are close to the optimal intervals for a 10 year timespan
 # Suppose you want to save Y seconds of data, with a minimum resolution
@@ -113,9 +113,12 @@ def get_timeseries(name, start, stop, step, type=None):
     p = redis.pipeline()
     for i in range(start, stop, step):
         key = 'ts:%i:%i:%s' % (interval,i//interval,name)
+        #key = 'ts:1:1657916937:heartbeat'
+        print(key)
         p.get(key)
 
     values = p.execute()
+    print(values)
 
     if type is None:
         return values

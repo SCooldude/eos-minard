@@ -1,5 +1,5 @@
 import sqlalchemy
-from .views import app
+from minard.views import app
 
 engine = sqlalchemy.create_engine('postgresql://%s:%s@%s:%i/%s' %
                                  (app.config['DB_USER'], app.config['DB_PASS'],

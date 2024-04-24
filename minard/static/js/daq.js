@@ -22,7 +22,7 @@ function metric(timeseries, crate, card, channel) {
             method: METHOD
         };
 
-        d3.json($SCRIPT_ROOT + '/metric_hash?' + $.param(params),
+        d3.json($SCRIPT_ROOT + '/query?' + $.param(params),
             function(data) {
                 if (!data)
                     return callback(new Error('unable to load data'));
@@ -65,6 +65,7 @@ function update_metrics(timeseries) {
     timeseries.metrics = [];
 
     if (typeof timeseries.crate === 'undefined') {
+		console.log("Updating crate");
         timeseries.metrics[0] = timeseries.context.metric(function(start, stop, step, callback) {
             var params = {
                 name: SOURCE,
@@ -74,6 +75,8 @@ function update_metrics(timeseries) {
                 step: Math.floor(step/1000),
                 method: METHOD
             };
+			
+			console.log("Getting owl_tubes query with params" + params);
 
             d3.json($SCRIPT_ROOT + '/owl_tubes?' + $.param(params),
                 function(data) {
@@ -90,10 +93,12 @@ function update_metrics(timeseries) {
         }
 
     } else if (typeof timeseries.card === 'undefined') {
+		console.log("Updating card");
         for (var i=0; i < 16; i++) {
             timeseries.metrics[i] = metric(timeseries, timeseries.crate, i, null);
         }
     } else {
+		console.log("Updating crate and card");
         for (var i=0; i < 32; i++) {
             timeseries.metrics[i] = metric(timeseries, timeseries.crate, timeseries.card, i);
         }
@@ -341,6 +346,36 @@ $('.carousel').on('slid.bs.carousel', function(e) {
     });
 });
 
+function query(name){
+	console.log("Fetching data");
+	/* return context.metric(function(name, callback) {
+	$.getJSON($SCRIPT_ROOT + '/query', {name: SOURCE, step: CRATE_WINDOW})}); */
+};
+
+function add_horizon(expressions, format, colors, extent) {
+    var horizon = context.horizon().height(Number(height));
+
+    if (typeof format != "undefined") horizon = horizon.format(format);
+    if (typeof colors != "undefined" && colors) horizon = horizon.colors(colors);
+    if (typeof extent != "undefined") horizon = horizon.extent(extent);
+
+    d3.select('#main').selectAll('.horizon')
+        .data(expressions.map(query), String)
+      .enter().insert('div','.bottom')
+        .attr('class', 'horizon')
+        .call(horizon)
+        .on('click', function(d, i) {
+            var domain = context.scale.domain();
+            var params = {
+                name: expressions[i],
+                start: domain[0].toISOString(),
+                stop: domain[domain.length-1].toISOString(),
+                step: Math.floor(context.step()/1000)
+            };
+            window.open($SCRIPT_ROOT + "/graph?" + $.param(params), '_self');
+        });
+}
+
 var interval = 5000;
 
 function update() {
@@ -348,8 +383,52 @@ function update() {
         .done(function(result) {
             d3.select('#crate').datum(result.values).call(crate);
             d3.select('#card').datum(result.values).call(card);
+            d3.select('#timeseries-card').datum(result.values);
+            //d3.select("#bargraph").selectAll("svg").remove()
+
+            newData = []
+
+            for (value of result.values){
+                if(value==null){
+                    console.log("Ignoring value")
+                    continue
+                }else{
+                    console.log("Pushing value" + value)
+                    newData.push(value)
+                }
+            }
+
+            d3.select('#bargraph')
+            .select("svg")
+            .html("");
+
+            d3.select("#bargraph")
+            .select("svg")
+            .selectAll("rect")
+            .data(newData)
+            .enter()
+            .append("rect")
+            .attr("width", function(d){
+                if(d==0){
+                    return 0;
+                }else{
+                    return widthScale(d);
+                }
+            })
+            .attr("height",10)
+            .attr("y", function(d,i){ return i*10});
+
+            d3.select("#bargraph")
+            .select("svg").append("g")
+            .attr("transform", "translate(0,480)")
+            .call(axis);
         });
+	update_state(true);
+    console.log("Updated data");
 }
+var context = create_context('#main', $('#data-step').val());
+
+add_horizon(["base"], format_rate, null, [0,10000]);
 
 d3.select('#crate').datum([]).call(crate);
 d3.select('#card').datum([]).call(card);
@@ -362,3 +441,22 @@ $('#crate' + [10,11,12,13,14].join(',#crate')).wrapAll('<div style="display:inli
 $('#crate' + [15,16,17,18,19].join(',#crate')).wrapAll('<div style="display:inline-block" />');
 update();
 setInterval(update,interval);
+
+var dataArray = [10,30,40,50];
+
+var widthScale = d3.scale.linear()
+                .domain([500,600])
+                .range([0,500]);
+
+var canvas = d3.select("#bargraph")
+.append("svg")
+.attr("width", 500)
+.attr("height",500);
+
+var axis = d3.svg.axis()
+.ticks(5)
+.scale(widthScale);
+
+canvas.append("g")
+.attr("transform", "translate(0,480)")
+.call(axis);

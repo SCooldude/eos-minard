@@ -1,5 +1,5 @@
-from .db import engine_nl
-from .detector_state import get_latest_run, get_mtc_state_for_run
+from minard.db import engine_nl
+from minard.detector_state import get_latest_run, get_mtc_state_for_run
 
 def ping_crates_list(limit, selected_run, run_range_low, run_range_high, gold):
     '''

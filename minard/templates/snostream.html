@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
+
 {% block title %}Stream{% endblock %}
+
 {% block head %}
     {{ super() }}
     <style>
@@ -13,12 +15,19 @@
         }
     </style>
 {% endblock %}
+
 {% block body %}
     {{ super() }}
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <p>Dispatcher: <span id='dispatcher'></span>
+                <button onclick="startMonitor()">Start Monitor</button>
+                <button onclick="stopMonitor()">Stop Monitor</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p>Dispatcher: <span id='dispatcher'></span></p>
             </div>
             <div class="col-md-2 col-md-offset-4 text-right">
                 <a href="{{ url_for("snostream",step=step,height=height,display="fecd") }}">Show FEC/D trigger rates</a>
@@ -36,6 +45,7 @@
         </div>
     </div>
 {% endblock %}
+
 {% block script %}
     <script src="{{ url_for('static', filename='js/d3.js') }}"></script>
     <script src="{{ url_for('static', filename='js/cubism.v1.js') }}"></script>
@@ -47,6 +57,20 @@
     <script>
         var step = {{ step }};
         var height = {{ height }};
+        
+        function startMonitor() {
+            fetch("/start_monitor")
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.log(error));
+        }
+        
+        function stopMonitor() {
+            fetch("/stop_monitor")
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.log(error));
+        }
     </script>
     <script src="{{ url_for('static', filename='js/snostream.js') }}"></script>
 {% endblock %}

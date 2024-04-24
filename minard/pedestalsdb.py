@@ -1,4 +1,4 @@
-from .db import engine
+from minard.db import engine
 
 def get_pedestals(crate, slot, channel):
     '''

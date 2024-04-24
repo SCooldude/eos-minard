@@ -1,6 +1,6 @@
-from .db import engine_nl
+from minard.db import engine_nl
 from datetime import datetime
-from .tools import total_seconds
+from minard.tools import total_seconds
 
 SECOND_PER_DAY = 24*60*60
 SECOND_PER_MICROSECOND = 1e-6

@@ -10,7 +10,7 @@ for _, key in ipairs(KEYS) do
         if i % 2 == 1 then
             f = v
         else
-            redis.call('HINCRBY', key, f, tonumber(v))
+            redis.call('HINCRBY', key, tostring(f), tonumber(v))
         end
     end
 end
@@ -24,7 +24,7 @@ for _, key in ipairs(KEYS) do
         if i % 2 == 1 then
             f = v
         else
-            redis.call('HINCRBYFLOAT', key, f, tonumber(v))
+            redis.call('HINCRBYFLOAT', key, tostring(f), tonumber(v))
         end
     end
 end
@@ -248,7 +248,10 @@ def hmincrbyfloat(key, mapping, client=None):
         keys = [key]
     else:
         keys = key
-    return _hmincrbyfloat(keys=keys, args=args, client=client)
+    sargs = list(map(str, args))
+    print('k:', keys)
+    print('a:', sargs)
+    return _hmincrbyfloat(keys=keys, args=sargs, client=client)
 
 def hmincr(key, fields, client=None):
     """
@@ -266,7 +269,9 @@ def hmincr(key, fields, client=None):
         keys = [key]
     else:
         keys = key
-    return _hmincr(keys=keys, args=fields, client=client)
+    #print('k:', keys)
+    #print('f:', list(map(str, fields)))
+    return _hmincr(keys=keys, args=list(map(str, fields)), client=client)
 
 def hdivh(result, a, b, fields, format='%.15g', client=None):
     """

@@ -8,6 +8,27 @@ setInterval(function() {
     });
 },1000);
 
+// Function to start the monitor process
+function startMonitor() {
+    fetch("/start_monitor")
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            // Perform any additional actions after starting the monitor
+        })
+        .catch(error => console.log(error));
+}
+
+// Function to stop the monitor process
+function stopMonitor() {
+    fetch("/stop_monitor")
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            // Perform any additional actions after stopping the monitor
+        })
+        .catch(error => console.log(error));
+}
 var context = create_context('#main', step);
 
 var TRIGGER_NAMES = ['TOTAL','100L','100M','100H','20','20LB',//'ESUML',
@@ -18,8 +39,9 @@ var TRIGGER_NAMES = ['TOTAL','100L','100M','100H','20','20LB',//'ESUML',
   'EXT6',
   //'EXT7', 'EXT8',
   //'SRAW','NCD',
-  'SOFGT','MISS'
+  'SOFGT','MISS','base'
   ];
+
 
 function metric(name) {
     var display = name;
@@ -108,10 +130,15 @@ add_horizon(["gtid"],format_int,[]);
 add_horizon(["run"],format_int,[]);
 add_horizon(["subrun"],format_int,[],[0,100]);
 add_horizon(["heartbeat"],format_int,null,[0,4]);
+add_horizon(["Temperature"],format_temp,null,[0,4]);
+add_horizon(["Water"],format_water,null,[0,4]);
+add_horizon(["data_rate"],format_rate, null,[0,4]);
+add_horizon(["d0_ch0_mean"],format_rate, null,[0,4]);
 /* mv_per_nhit is calculated very roughly using the fact that at the CTC the
  * trigger signal is 38 mV/hit, and we measured the conversion between CTC
  * voltage drop and baseline correction voltage in this shift report:
  * http://snopl.us/shift/view/daf725f9b1014a17a1d22c14083f747c?index_start=245. */
+add_horizon(["base"], format_rate, null, [0,10000]);
 add_baseline_horizon(["100L-Baseline"],format_rate,null,[-10,10], 0.82, 15.0);
 add_baseline_horizon(["100M-Baseline"],format_rate,null,[-10,10], 0.96, 4.17);
 add_baseline_horizon(["100H-Baseline"],format_rate,null,[-10,10], 1.835, 1.50);

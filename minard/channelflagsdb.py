@@ -1,6 +1,6 @@
-from .db import engine_nl, engine
-from .detector_state import get_latest_run
-from .polling import pmt_type, PMT_TYPES
+from minard.db import engine_nl, engine
+from minard.detector_state import get_latest_run
+from minard.polling import pmt_type, PMT_TYPES
 
 def get_channel_flags(limit, run_range_low, run_range_high, summary, gold):
     """

@@ -1,7 +1,7 @@
-flask==0.10
+flask
 gunicorn
 #numpy
-redis>=2.10
+redis
 #argparse
 #sphinx
 #requests

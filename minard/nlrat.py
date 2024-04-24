@@ -1,9 +1,9 @@
-import detector_state
+import minard.detector_state
 import glob
 import os
 import re
 from redis import Redis
-from .views import app
+from minard.views import app
 
 REDIS_SET = "nlrat-runs"
 redis = Redis()
@@ -26,7 +26,7 @@ def extract_run_type(run_word):
     :param int run_word:
     :returns string:
     '''
-    for k, v in RUN_TYPES.iteritems():
+    for k, v in RUN_TYPES.items():
         if (run_word & (1 << k)):
             return v
     return "Unknown"

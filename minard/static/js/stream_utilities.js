@@ -109,6 +109,25 @@ function format_int(n) {
     }
 }
 
+function format_water(n) {
+    if (!$.isNumeric(n)) {
+        return '-';
+    } else {
+        if (n == 1) return 'LEAK! SENSING WATER!';
+        else if (n == 0) return 'No water here!';
+        else return 'ERROR: Leak sensor returning non boolean value';
+    }
+}
+
+function format_temp(n) {
+    if (!$.isNumeric(n)) {
+        return '-';
+    } else {
+	var n_rounded = Math.round(n*100)/100;
+        return n_rounded.toString()+'\xB0'+'C';
+    }
+}
+
 function format(str) {
     var fmt = d3.format(str);
 

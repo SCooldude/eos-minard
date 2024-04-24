@@ -8,6 +8,7 @@
         <meta name="author" content="">
 
         <!-- Icon -->
+        <!--test -->
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/nubuddy_beta.png') }}">
 
         <title>{% block title %}{% endblock %}</title>
@@ -31,107 +32,33 @@
                     <ul class="nav navbar-nav">
                         <!-- Dropdown L2 -->
                         {{ nav_link('snostream', 'Stream') }}
+						 <!-- Dropdown DAQ -->
+                        {{ nav_link('daq', 'DAQ') }}
                         <!-- Dropdown Detector -->
+
                         <li class='dropdown'>
 			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Detector <b class='caret'></b></a>
                             <ul class='dropdown-menu'>
                                 {{ nav_link('detector', 'Occupancy') }}
-                                {{ nav_link('nhit', 'Nhit Distribution') }}
-                                {{ nav_link('nhit_monitor_thresholds_nearline', 'Nhit Monitor') }}
-                                {{ nav_link('trigger', 'Trigger Scans') }}
-                                {{ nav_link('state', 'Detector State', run=0) }}
-                                {{ nav_link('detector_state_check', 'Detector State Check', run=0) }}
-                                {{ nav_link('detector_state_diff', 'Detector State Diff') }}
-                                {{ nav_link('ecal_state_diff', 'ECAL State Diff') }}
-                                {{ nav_link('update_mtca_crate_mapping', 'MTCA+ Information') }}
-                                {{ nav_link('dead_time_runs','Dead Time Runs') }}
                             </ul>
                         <!-- Dropdown Logs -->
                         <li class='dropdown'>
 			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Logs <b class='caret'></b></a>
                             <ul class='dropdown-menu'>
-                                {{ nav_link('alarms', 'Level 2 Logs') }}
                                 <li><a href="/monitoring/logs">DAQ Logs</a></li>
                             </ul>
-                        <!-- Dropdown Channel -->
+                        <!-- Dropdown Etcheverry -->
                         <li class='dropdown'>
-			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Channels <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                {{ nav_link('channel_database', 'Channel Database') }}
-                                {{ nav_link('channel_status', 'Channel Status') }}
-                                {{ nav_link('update_channel_status', 'Update Channel Status') }}
-                                {{ nav_link('calculate_resistors', 'Calculate PMTIC Resistors') }}
-                                {{ nav_link('update_pmtic_resistors', 'Update PMTIC Resistors') }}
-                                {{ nav_link('discriminator_info', 'Discriminator Thresholds') }}
-                                {{ nav_link('ecal_status', 'ECAL Status') }}
-                                {{ nav_link('pedestals', 'Pedestals') }}
-                            </ul>
-                        <!-- Dropdown Polling -->
-                        <li class='dropdown'>
-			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Polling <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                {{ nav_link('daq', 'Continuous Polling Data') }}
-                                {{ nav_link('check_rates', 'Check Rates Data') }}
-                                {{ nav_link('polling_history', 'Check Rates Polling By Channel') }}
-                            </ul>
-                        <!-- Dropdown Nearline -->
-                        <li class='dropdown'>
-			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Nearline <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                {{ nav_link('nearline', 'Job Status') }}
-                                {{ nav_link('nearline_failures', 'Nearline Failures') }}
-                                {{ nav_link('nearline_monitoring_summary', 'Nearline Monitoring') }}
-                            </ul>
-                        <!-- Dropdown PMTcal -->
-                        <li class='dropdown'>
-			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>PMTcal <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                <li> <a href="https://snopluspmts.physics.berkeley.edu/">Overview</a></li>
-                                {{ nav_link('eca', 'ECA') }}
-                                {{ nav_link('pcatellie', 'PCA Tellie') }}
-				{{ nav_link('noise', 'PMT Noise') }}
-                                {{ nav_link('channelflags', 'Channel Flags') }}
-				{{ nav_link('cssProc', 'CSS Proc') }}
-                            </ul>
-                        <!-- Dropdown Data Quality -->
-                        <li class='dropdown'>
-                            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Data Quality <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                {{ nav_link('physicsdq', 'Physics DQ') }}
-                                {{ nav_link('calibdq_tellie', 'TELLIE  DQ') }}
-                                {{ nav_link('calibdq_smellie', 'SMELLIE DQ') }}
-                                {{ nav_link('pingcrates', 'Ping Crates') }}
-                                {{ nav_link('trigger_clock_jump', 'Trigger Clock Jumps') }}
-                                {{ nav_link('muon_list', 'Muons') }}
-                          </ul>
-                        <!-- Supernova Dropdown --!>
-                        <li class='dropdown'>
-			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Supernova <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                {{ nav_link('l2', 'Level 2') }}
-                                {{ nav_link('burst', 'Level 2 - Bursts') }}
-                                {{ nav_link('l3', 'Level 3') }}
-                                {{ nav_link('burst_l3', 'Level 3 - Bursts') }}
-				{{ nav_link('presn', 'Pre-Supernova') }}
-                            </ul>
-                        <!-- Dropdown Detector -->
-                        <li class='dropdown'>
-			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Underground <b class='caret'></b></a>
+			<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Etcheverry <b class='caret'></b></a>
                             <ul class='dropdown-menu'>
                                 {{ nav_link('cavity_temp', 'Cavity Temperature') }}
-                                {{ nav_link('deck_activity', 'Deck and DCR Activity') }}
-                                {{ nav_link('scint_level', 'Scintillator Level and AV Offset') }}
-                                {{ nav_link('radon_monitor', 'Radon Monitor') }}
                             </ul>
-                        <!-- Remote Control Rooms -->
-                        <li class='dropdown'>
-                            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Control Rooms <b class='caret'></b></a>
-                            <ul class='dropdown-menu'>
-                                {{ nav_link('shifter_information', 'Shifter Information') }}
-                                {{ nav_link('orca_session_logs', 'Orca') }}
-                                {{ nav_link('remote_network_monitor', 'Network') }}
-                                {{ nav_link('status', 'Software Status') }}
-                          </ul>
+						<!-- Digitizer -->
+						<li class='dropdown'>
+							<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Digitizer <b class='caret'></b></a>
+							<ul class='dropdown-menu'>
+								{{ nav_link('digitizer', 'Digitizer') }}
+							</ul>
                     </ul>
                 </div><!--/.navbar-collapse -->
             </div>

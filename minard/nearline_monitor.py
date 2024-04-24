@@ -1,12 +1,12 @@
-from .db import engine, engine_nl
-from .detector_state import get_latest_run
-from .pingcratesdb import ping_crates_list
-from .channelflagsdb import get_channel_flags, get_channel_flags_by_run
-from .triggerclockjumpsdb import get_clock_jumps, get_clock_jumps_by_run
-from .nlrat import RUN_TYPES
-from .occupancy import run_list, occupancy_by_trigger, occupancy_by_trigger_limit
-from .muonsdb import get_muons
-from .gain_monitor import crate_gain_monitor
+from minard.db import engine, engine_nl
+from minard.detector_state import get_latest_run
+from minard.pingcratesdb import ping_crates_list
+from minard.channelflagsdb import get_channel_flags, get_channel_flags_by_run
+from minard.triggerclockjumpsdb import get_clock_jumps, get_clock_jumps_by_run
+from minard.nlrat import RUN_TYPES
+from minard.occupancy import run_list, occupancy_by_trigger, occupancy_by_trigger_limit
+from minard.muonsdb import get_muons
+from minard.gain_monitor import crate_gain_monitor
 
 # Limits for failing channel flags check
 OUT_OF_SYNC_1 = 32

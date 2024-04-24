@@ -1,7 +1,7 @@
 from __future__ import print_function, division
-from .views import app
-from .db import engine, engine_nl
-from .channeldb import get_nominal_settings_for_run
+from minard.views import app
+from minard.db import engine, engine_nl
+from minard.channeldb import get_nominal_settings_for_run
 from collections import defaultdict
 
 def get_latest_run():
@@ -1067,7 +1067,7 @@ def trigger_scan_human_readable(trigger_scan):
         return False
     res = {}
     try:
-        for name, obj in trigger_scan.iteritems():
+        for name, obj in trigger_scan.items():
             name = trigger_scan_string_translate(name)
             vals = False
             if(obj):

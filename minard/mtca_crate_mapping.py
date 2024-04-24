@@ -1,6 +1,6 @@
 from wtforms import Form, validators, IntegerField, SelectField, PasswordField
-from .db import engine
-from .views import app
+from minard.db import engine
+from minard.views import app
 import psycopg2
 import psycopg2.extensions
 
@@ -11,7 +11,7 @@ OWL_LABELS = {1: 17, 2: 13, 3: 18, 4: 3}
 choices = [(19, "None")] + [(i, str(i+1)) for i in range(19)]
 
 owl_choices = [(-1, "None")]
-for label, crate in OWL_LABELS.iteritems():
+for label, crate in OWL_LABELS.items():
     owl_choices.append((crate, str(label)))
 
 RETRIGGER_LOGIC = {

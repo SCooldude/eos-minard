@@ -1,5 +1,5 @@
-from .db import engine_nl
-from .detector_state import get_latest_run
+from minard.db import engine_nl
+from minard.detector_state import get_latest_run
 import time
 
 TZERO = 14610*24*3600

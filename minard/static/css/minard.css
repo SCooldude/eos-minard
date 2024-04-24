@@ -49,11 +49,11 @@
 }
 
 #crate table tr td {
-    padding:2px;
+    padding: 8px;
 }
 
 #card table {
-    border-spacing: 2px;
+    border-spacing: 3px;
     border-collapse: separate;
 }
 

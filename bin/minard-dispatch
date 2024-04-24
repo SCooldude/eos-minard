@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import print_function, division
+
 import time
 from redis import Redis
 from dispatch import Dispatch, unpack_trigger_type, unpack_header, unpack_pmt_record, RECORD_IDS
@@ -60,7 +60,7 @@ def flush_cache(cache, cache_set, cache_nhit, cache_pmt, time):
     # for docs on redis pipeline see http://redis.io/topics/pipelining
     p = redis.pipeline()
 
-    for name, hash in cache.items():
+    for name, hash in list(cache.items()):
         if isinstance(hash, dict):
             keys = ['ts:%i:%i:%s' % (interval, time//interval, name)
                     for interval in INTERVALS]
@@ -77,7 +77,7 @@ def flush_cache(cache, cache_set, cache_nhit, cache_pmt, time):
                 p.expire(key,interval*EXPIRE)
 
     for interval in INTERVALS:
-        for name, hash in cache_set.items():
+        for name, hash in list(cache_set.items()):
             key = 'ts:%i:%i:%s' % (interval, time//interval, name)
             if len(hash) > 0:
                 p.hmset(key, hash)
@@ -100,14 +100,14 @@ def flush_cache(cache, cache_set, cache_nhit, cache_pmt, time):
         prev_key = 'ts:%i:%i:occupancy' % (interval,time//interval-1)
         if redis.incr(prev_key + ':lock') == 1:
             hdivk(prev_key, prev_key + ':hits', prev_key + ':count',
-                  range(10240), format='%.2g', client=p)
+                  list(range(10240)), format='%.2g', client=p)
             keys = setavgmax(prev_key, client=p)
             for k in keys:
                 p.expire(k, HASH_EXPIRE*interval)
             p.expire(prev_key, HASH_EXPIRE*interval)
             p.expire(prev_key + ':lock', interval)
 
-    for trigger, cache in cache_nhit.iteritems():
+    for trigger, cache in cache_nhit.items():
         if len(cache) > 0:
             # nhit distribution
             if len(cache) > 100:
@@ -288,7 +288,7 @@ if __name__ == '__main__':
     parser.add_argument("--logfile", help="filename for log file",
                         default=None)
     parser.add_argument("-d", "--daemonize", action="store_true",
-			default=False)
+            default=False)
     parser.add_argument('--loglevel',
                         help="logging level (debug, verbose, notice, warning)",
                         default='notice')
@@ -300,16 +300,16 @@ if __name__ == '__main__':
         log.set_logfile(args.logfile)
 
     if args.daemonize:
-	daemonize()
+        daemonize()
 
     if args.worker >= args.num_workers:
         log.warn("worker number must be less than the number of workers")
         sys.exit(1)
 
     while True:
-	try:
-	    pull(args.host, args.num_workers, args.worker)
-	except Exception as e:
-	    log.warn("unhandled exception: %s" % str(e))
+        try:
+            pull(args.host, args.num_workers, args.worker)
+        except Exception as e:
+            log.warn("unhandled exception: %s" % str(e))
             time.sleep(60)
-	    continue
+            continue

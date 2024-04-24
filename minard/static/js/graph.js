@@ -6,11 +6,14 @@ function isNumber(x)
 function format_data(values, start, stop, step)
 {
     var data = new Array();
+/*    if (isNumber(values[0])) window.alert(values[0]);*/
     for (var i=0; i < values.length; i++)
     {
         var date = moment(start);
+/*        if (null == (values[i])) window.alert(values[i]);*/
         date.add(step*i, 'seconds');
         data.push({'date': date.toDate(), 'value': values[i]});
+/*        data.push({'date': date.toDate(), 'value': i * 0.25 + 40000});*/
     }
     return data;
 }
@@ -39,7 +42,7 @@ function add_graph(name, start, stop, step)
                     var scale = tzscale().domain(dates).zone('America/Toronto');
 
                     var valid = values.filter(isNumber);
-                }
+		}
 
 		var time_fmt = 'MMM Do YYYY';
 
@@ -69,11 +72,25 @@ function add_graph(name, start, stop, step)
                     target: "#main",
                     x_accessor:'date',
                     y_accessor:'value',
+                    /*Below is supposed to be true*/
 		    min_y_from_data: true,
 		    x_mouseover: function(d, i) {
 			return moment.tz(d['date'] || d['key'], 'America/Toronto').format(time_fmt) + '  ';
 		    },
                 };
+
+                if (name == "Temperature") {
+                    params.min_y = 19.0
+                    params.max_y = 21.0
+                }
+				if (name == "data_rate") {
+                    params.min_y = -10000
+                    params.max_y = 10000
+                }
+				if (name == "d0_ch0_mean") {
+                    params.min_y = -10000
+                    params.max_y = 10000
+                }
 
                 if (Array.isArray(values[0])) {
                     params.legend = name.split(",");

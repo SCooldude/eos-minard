@@ -130,7 +130,7 @@ MG.data_graphic = function(args) {
     max_y: null,
     min_x: null,
     min_y: null,                        // if set, y axis starts at an arbitrary value
-    min_y_from_data: false,             // if set, y axis will start at minimum value rather than at 0
+    min_y_from_data: true,             // if set, y axis will start at minimum value rather than at 0
     point_size: 2.5,                    // the size of the dot that appears on a line on mouse-over
     x_accessor: 'date',
     xax_units: '',

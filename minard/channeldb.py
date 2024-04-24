@@ -1,6 +1,6 @@
 from wtforms import Form, BooleanField, StringField, validators, IntegerField, PasswordField
-from .db import engine
-from .views import app
+from minard.db import engine
+from minard.views import app
 import psycopg2
 import psycopg2.extensions
 

@@ -1,4 +1,4 @@
-from .db import engine_nl
+from minard.db import engine_nl
 import json
 from math import log10
 

@@ -10,13 +10,15 @@ function createArray(length) {
     return arr;
 }
 
-var crate_setup = createArray(20,32,16);
+var crate_setup = createArray(1,17,16);
 
-for (var i=0; i < 20; i++) {
-    for (var j=0; j < 32; j++) {
+for (var i=0; i <1 ; i++) {
+    for (var j=0; j <17; j++) { //changed 18 to 17 so it counts up to 17 cards
         for (var k=0; k < 16; k++) {
-            crate_setup[i][31-j][k] = (i << 9) | (k << 5) | j;
-        }
+			//I think this  is bit related and stores a integer value not sure~DF
+			// the << are bitshifts left, while the |'s are bitwise-ors. ~wto
+            crate_setup[i][16-j][k] = (i << 1) | (k << 5) | j;         
+		}
     }
 }
 
@@ -118,8 +120,8 @@ function card_view() {
 }
 
 function crate_view() {
-    var margin = {top: 20, right: 25, bottom: 50, left: 25},
-        width = null,
+    var margin = {top: 50, right: 80, bottom: 50, left: 80},
+        width = 500;
         height = null;
 
     var threshold = null;
@@ -128,11 +130,11 @@ function crate_view() {
 
     var click = function(d, i) { return; };
 
-    var caption = true;
+    var caption = false;
 
     var hover_text = false;
 
-    var scale = d3.scale.threshold().domain([100]).range(['#bababa','#ca0020']);
+    var scale = d3.scale.threshold().domain([140]).range(['#bababa','#ca0020']);
 
     function MakeStylingFunction(){
         var attribute = 'style';
@@ -166,7 +168,7 @@ function crate_view() {
     function chart(selection) {
         selection.each(function(data) {
         if (width === null)
-            width = $(this).width() - margin.left - margin.right;
+            width = $(this).width();// - margin.left - margin.right;
 
         if (height === null)
             height = Math.round(width/1.6) - margin.top - margin.bottom;
@@ -184,7 +186,7 @@ function crate_view() {
             .attr("id", function(d, i) { return "crate" + i;})
             .attr("class", function(d, i) { return "crate" + i;})
           .append('table')
-            .attr('style','padding:2px;border-collapse:separate;border-spacing:1px')
+            .attr('style','padding:2px;border-collapse:separate;border-spacing:3px')
 
         if (caption) {
             tr1.insert('caption').text(function(d, i) { return i; })

@@ -1,5 +1,5 @@
-from .db import engine_nl
-from .detector_state import get_latest_run
+from minard.db import engine_nl
+from minard.detector_state import get_latest_run
 
 def crate_gain_monitor(limit, selected_run, run_range_low, run_range_high, gold):
     """
